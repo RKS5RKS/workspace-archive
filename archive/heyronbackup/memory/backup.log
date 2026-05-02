@@ -1,0 +1,4 @@
+2026-04-27 17:41 UTC: Further push attempt failed – RPC failed; HTTP 500 curl 22 The requested URL returned error: 500.
+2026-04-28 01:40 UTC: Backup push retry failed – RPC failed; curl 55 Failed sending data to the peer. Remote end hung up unexpectedly.
+2026-04-28 01:40:58 UTC: Push attempt failed – RPC failed; HTTP 500 curl 22 The requested URL returned error: 500. Remote end hung up unexpectedly.
+2026-04-28 01:41:08 UTC: Push attempt failed – RPC failed; curl 55 Failed sending data to the peer. Remote end hung up unexpectedly.

@@ -1,0 +1,5 @@
+file 'real_hook_text.mp4'
+file 'real_part1_text.mp4'
+file 'real_part2_text.mp4'
+file 'real_part3_text.mp4'
+file 'real_cta_text.mp4'

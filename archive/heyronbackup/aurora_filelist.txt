@@ -1,0 +1,4 @@
+file '/home/openclaw/.openclaw/workspace/aurora_clip1.mp4'
+file '/home/openclaw/.openclaw/workspace/aurora_clip2.mp4'
+file '/home/openclaw/.openclaw/workspace/aurora_clip3.mp4'
+file '/home/openclaw/.openclaw/workspace/aurora_clip4.mp4'
