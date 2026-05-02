@@ -1,0 +1,3 @@
+file '/home/openclaw/.openclaw/workspace/comic_series/assets/output/complete_scene.mp4'
+file '/home/openclaw/.openclaw/workspace/comic_series/assets/output/dialogue_scene.mp4'
+file '/home/openclaw/.openclaw/workspace/comic_series/assets/output/team_scene.mp4'

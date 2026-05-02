@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">
+  <!-- NOMARK Character - Charge/Attack Pose -->
+  
+  <!-- DEFINITIONS -->
+  <defs>
+    <linearGradient id="hoodieGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2D2D2D"/>
+      <stop offset="100%" style="stop-color:#0D0D0D"/>
+    </linearGradient>
+    <linearGradient id="neonCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00FFFF"/>
+      <stop offset="100%" style="stop-color:#00CCCC"/>
+    </linearGradient>
+    <linearGradient id="neonPink" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF0080"/>
+      <stop offset="100%" style="stop-color:#CC0066"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- === LEGS (lunge forward) === -->
+  <path d="M155 320 L130 460 L155 470 L165 370 L190 370 L210 470 L235 460 L210 320 Z" fill="#1A1A1A"/>
+  <path d="M155 470 L130 485 L155 495 L175 480 Z" fill="#0D0D0D"/>
+  <path d="M210 470 L235 485 L210 495 L190 480 Z" fill="#0D0D0D"/>
+  
+  <!-- === HOODIE BODY (leaning forward) === -->
+  <path d="M145 155 
+           Q135 165 135 205 
+           L135 325 
+           Q135 345 155 345
+           L215 345
+           Q235 345 235 325
+           L235 205
+           Q235 165 225 155
+           Q200 150 145 155 Z" 
+        fill="url(#hoodieGradient)" stroke="#333" stroke-width="2"/>
+  
+  <!-- Hood (tilted forward) -->
+  <ellipse cx="185" cy="125" rx="65" ry="70" fill="#1A1A1A"/>
+  <ellipse cx="185" cy="120" rx="55" ry="55" fill="#0D0D0D"/>
+  <ellipse cx="185" cy="145" rx="40" ry="35" fill="#1A1A1A"/>
+  <path d="M145 125 Q185 105 225 125" fill="none" stroke="#000" stroke-width="3" opacity="0.5"/>
+  
+  <!-- === ARMS (reaching forward for punch) === -->
+  <!-- Left Arm (forward) -->
+  <path d="M135 185 L100 170 L70 200 L80 210 L105 185 L140 200" fill="url(#hoodieGradient)"/>
+  <circle cx="65" cy="210" r="15" fill="#E8B89D"/>
+  
+  <!-- Right Arm (forward) -->
+  <path d="M235 185 L280 190 L310 170 L305 155 L275 180 L240 175" fill="url(#hoodieGradient)"/>
+  <circle cx="315" cy="165" r="15" fill="#E8B89D"/>
+  
+  <!-- === FACE/MASK (looking forward) === -->
+  <ellipse cx="185" cy="160" rx="35" ry="30" fill="#E8B89D"/>
+  
+  <g filter="url(#glow)">
+    <ellipse cx="170" cy="155" rx="10" ry="6" fill="#FFFFFF"/>
+    <circle cx="170" cy="155" r="3" fill="#000"/>
+    <ellipse cx="200" cy="155" rx="10" ry="6" fill="#FFFFFF"/>
+    <circle cx="200" cy="155" r="3" fill="#000"/>
+  </g>
+  
+  <path d="M160 145 Q170 143 180 147" fill="none" stroke="#333" stroke-width="2"/>
+  <path d="M190 147 Q200 143 210 145" fill="none" stroke="#333" stroke-width="2"/>
+  
+  <path d="M155 170 Q155 185 170 190 L185 193 L200 190 Q215 185 215 170 L215 165 Q185 175 155 165 Z" 
+        fill="#0D0D0D"/>
+  <path d="M155 165 Q185 175 215 165" fill="none" stroke="#222" stroke-width="1"/>
+  
+  <!-- === HOODIE DETAILS === -->
+  <line x1="170" y1="185" x2="170" y2="245" stroke="#333" stroke-width="3"/>
+  <line x1="200" y1="185" x2="200" y2="245" stroke="#333" stroke-width="3"/>
+  <circle cx="170" cy="247" r="4" fill="#444"/>
+  <circle cx="200" cy="247" r="4" fill="#444"/>
+  
+  <g transform="translate(185, 250)">
+    <circle cx="0" cy="0" r="15" fill="none" stroke="url(#neonCyan)" stroke-width="2" filter="url(#glow)"/>
+    <text x="0" y="5" text-anchor="middle" fill="url(#neonCyan)" font-family="Arial" font-size="12" font-weight="bold" filter="url(#glow)">N</text>
+  </g>
+  
+  <path d="M160 305 L180 305 L180 325 Q170 330 160 325 Z" fill="#222"/>
+  
+  <path d="M150 160 Q185 170 220 160" fill="none" stroke="url(#neonPink)" stroke-width="2" filter="url(#glow)" opacity="0.8"/>
+  
+  <rect x="60" y="200" width="20" height="5" fill="#333"/>
+  <rect x="295" y="165" width="20" height="5" fill="#333"/>
+  
+  <ellipse cx="180" cy="505" rx="65" ry="10" fill="#000" opacity="0.3"/>
+  
+</svg>

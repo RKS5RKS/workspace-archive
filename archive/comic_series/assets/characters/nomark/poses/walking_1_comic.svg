@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600">
+  <defs>
+    <linearGradient id="hg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2D2D2D"/><stop offset="100%" style="stop-color:#0D0D0D"/>
+    </linearGradient>
+    <linearGradient id="htg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9B30FF"/><stop offset="100%" style="stop-color:#FF0080"/>
+    </linearGradient>
+  </defs>
+  <!-- Body same as standing -->
+  <ellipse cx="200" cy="150" rx="90" ry="100" fill="url(#hg)"/>
+  <path d="M160 90 Q170 60 200 55 Q230 60 240 90 L240 120 Q230 100 200 95 Q170 100 160 120 Z" fill="#1A1A1A"/>
+  <ellipse cx="200" cy="140" rx="50" ry="55" fill="#E8DCC8"/>
+  <ellipse cx="148" cy="145" rx="8" ry="12" fill="#E8DCC8"/>
+  <ellipse cx="252" cy="145" rx="8" ry="12" fill="#E8DCC8"/>
+  <path d="M170 120 Q180 115 190 120" stroke="#1A1A1A" stroke-width="3" fill="none"/>
+  <path d="M210 120 Q220 115 230 120" stroke="#1A1A1A" stroke-width="3" fill="none"/>
+  <ellipse cx="180" cy="135" rx="12" ry="8" fill="#FFFFFF"/>
+  <ellipse cx="220" cy="135" rx="12" ry="8" fill="#FFFFFF"/>
+  <ellipse cx="182" cy="135" rx="5" ry="5" fill="#00CCCC"/>
+  <ellipse cx="222" cy="135" rx="5" ry="5" fill="#00CCCC"/>
+  <path d="M200 145 L198 155 L202 155" fill="none" stroke="#C9B89A" stroke-width="2"/>
+  <path d="M190 170 Q200 168 210 170" stroke="#8B7355" stroke-width="2" fill="none"/>
+  <path d="M130 180 Q120 200 120 280 L120 400 Q120 420 140 420 L260 420 Q280 420 280 400 L280 280 Q280 200 270 180 Q250 170 130 180 Z" fill="url(#hg)" stroke="#333" stroke-width="2"/>
+  <path d="M130 180 Q120 200 120 220 L120 240 Q140 230 160 230 Q180 230 200 230 Q220 230 240 230 Q260 230 280 240 L280 220 Q280 200 270 180 Q250 170 130 180 Z" fill="url(#htg)"/>
+  <!-- ARMS - arms swinging -->
+  <path d="M130 200 Q80 260 60 300 Q50 320 70 330" fill="url(#hg)" stroke="#333" stroke-width="2"/>
+  <circle cx="75" cy="335" r="15" fill="#1A1A1A"/>
+  <path d="M270 200 Q320 260 340 300 Q350 320 330 330" fill="url(#hg)" stroke="#333" stroke-width="2"/>
+  <circle cx="325" cy="335" r="15" fill="#1A1A1A"/>
+  <!-- LEGS - left leg forward -->
+  <path d="M160 400 L120 440 L130 490 L165 480 L180 420" fill="url(#hg)" stroke="#333" stroke-width="2"/>
+  <ellipse cx="140" cy="495" rx="20" ry="10" fill="#0D0D0D"/>
+  <!-- Right leg back -->
+  <path d="M240 400 L280 440 L270 490 L235 480 L220 420" fill="url(#hg)" stroke="#333" stroke-width="2"/>
+  <ellipse cx="260" cy="495" rx="20" ry="10" fill="#0D0D0D"/>
+  <text x="200" y="320" font-family="Arial Black" font-size="40" fill="url(#htg)" text-anchor="middle" font-weight="bold">N</text>
+</svg>

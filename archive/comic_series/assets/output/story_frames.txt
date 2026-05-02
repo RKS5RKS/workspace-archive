@@ -1,0 +1,8 @@
+file 'story_00.png'
+file 'story_01.png'
+file 'story_02.png'
+file 'story_03.png'
+file 'story_04.png'
+file 'story_05.png'
+file 'story_06.png'
+file 'story_07.png'
