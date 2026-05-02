@@ -1,0 +1,5 @@
+file 'story_hook.mp4'
+file 'story_part1.mp4'
+file 'story_part2.mp4'
+file 'story_part3.mp4'
+file 'story_cta_slow.mp4'
