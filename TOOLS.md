@@ -48,6 +48,11 @@ Add whatever helps you do your job. This is your cheat sheet.
 - **Blender:** /usr/bin/blender
 - **Project Dir:** /root/nomark_project/
 
+### Gmail (Crystal)
+- **Email:** Crystal.agnent@gmail.com
+- **App Password:** qowjmvkwlcnqexcb (16-char, no spaces)
+- **To send emails:** Use Python smtplib with SMTP smtp.gmail.com:587
+
 ## Related
 
 - [Agent workspace](/concepts/agent-workspace)
