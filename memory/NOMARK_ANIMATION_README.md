@@ -134,16 +134,217 @@ ffmpeg -y -f concat -safe 0 -i roll-concat.txt -c:v mpeg4 -q:v 3 Roll_3s_loop.mp
 This creates a perfect 3-second loop!
 
 ## How to Create Transitions Between Animations
-1. Edit `/root/nomark_project/transition_script.py` to set:
-   - ANIM_A = "Roll"  # First animation name
-   - ANIM_B = "Dance_Loop"  # Second animation name
-2. Run: `blender --background --python transition_script.py`
-3. Script auto-detects animation lengths from GLB
-4. Output: `transition_full_cycle.mp4` in exports folder
-5. Convert: `ffmpeg -y -framerate 30 -i transition_full_cycle.mp4%04d.png -c:v libx264 -pix_fmt yuv420p output.mp4`
 
-## Transition Script Key Features
-- Automatically gets frame counts from GLB (uses full animation cycles)
-- Uses SLERP interpolation for smooth bone rotation transitions
-- Default: 15 transition frames between animations
-- Lower samples (8) for faster rendering
+### WORKING TRANSITION SCRIPT (v9 - Universal)
+
+This script plays Animation A once, then does a smooth SLERP transition to Animation B (which loops).
+
+```python
+import bpy
+import mathutils
+from mathutils import Quaternion, Vector
+
+# =========================
+# CONFIG - EDIT THESE
+# =========================
+
+GLB_PATH = "/root/nomark_project/exports/nomark_walk.glb"
+OUTPUT_PATH = "/root/nomark_project/exports/transition_output.mp4"
+
+ANIM_A = "Jump_Start"      # First animation (plays once)
+ANIM_B = "Swim_Fwd_Loop"   # Second animation (loops)
+
+TARGET_FRAMES = 90         # Total frames (3 seconds @ 30fps)
+TRANSITION_FRAMES = 30     # Frames for SLERP transition
+
+# =========================
+# IMPORT GLB
+# =========================
+
+bpy.ops.import_scene.gltf(filepath=GLB_PATH)
+
+# =========================
+# FIND ARMATURE
+# =========================
+
+armature = None
+for obj in bpy.context.scene.objects:
+    if obj.type == 'ARMATURE':
+        armature = obj
+        break
+
+if armature is None:
+    raise Exception("No armature found.")
+
+# =========================
+# GET ACTIONS FROM NLA TRACKS
+# =========================
+
+def get_action_from_track(track_name):
+    if armature.animation_data:
+        for track in armature.animation_data.nla_tracks:
+            if track.name == track_name and track.strips:
+                return track.strips[0].action
+    return None
+
+action_a = get_action_from_track(ANIM_A)
+action_b = get_action_from_track(ANIM_B)
+
+if action_a is None:
+    raise Exception(f"Animation '{ANIM_A}' not found.")
+if action_b is None:
+    raise Exception(f"Animation '{ANIM_B}' not found.")
+
+print(f"Using: {action_a.name} -> {action_b.name}")
+
+# =========================
+# CREATE FINAL ACTION
+# =========================
+
+if armature.animation_data is None:
+    armature.animation_data_create()
+
+final_action = bpy.data.actions.new("Universal_Transition")
+armature.animation_data.action = final_action
+
+# =========================
+# HELPER FUNCTIONS
+# =========================
+
+def clear_pose():
+    """Reset pose to default"""
+    bpy.context.scene.frame_set(0)
+    for pb in armature.pose.bones:
+        pb.rotation_mode = 'QUATERNION'
+        pb.location = (0, 0, 0)
+        pb.rotation_quaternion = (1, 0, 0, 0)
+        pb.scale = (1, 1, 1)
+
+def evaluate_pose(action, frame):
+    """Evaluate pose from any action at a specific frame"""
+    orig_action = armature.animation_data.action
+    armature.animation_data.action = action
+    bpy.context.scene.frame_set(int(frame))
+    
+    pose_data = {}
+    for pb in armature.pose.bones:
+        pose_data[pb.name] = {
+            "location": pb.location.copy(),
+            "rotation": pb.rotation_quaternion.copy(),
+            "scale": pb.scale.copy()
+        }
+    
+    armature.animation_data.action = orig_action
+    return pose_data
+
+def insert_pose(frame, pose_dict):
+    """Insert pose keyframes into final action"""
+    bpy.context.scene.frame_set(frame)
+    armature.animation_data.action = final_action
+    
+    for pb in armature.pose.bones:
+        if pb.name not in pose_dict:
+            continue
+        pb.rotation_mode = 'QUATERNION'
+        data = pose_dict[pb.name]
+        pb.location = data["location"]
+        pb.rotation_quaternion = data["rotation"]
+        pb.scale = data["scale"]
+        pb.keyframe_insert(data_path="location", frame=frame)
+        pb.keyframe_insert(data_path="rotation_quaternion", frame=frame)
+        pb.keyframe_insert(data_path="scale", frame=frame)
+
+def blend_poses(pose_a, pose_b, t):
+    """SLERP blend between two poses"""
+    result = {}
+    for bone_name in pose_a.keys():
+        if bone_name not in pose_b:
+            continue
+        a = pose_a[bone_name]
+        b = pose_b[bone_name]
+        loc = a["location"].lerp(b["location"], t)
+        rot = Quaternion.slerp(a["rotation"], b["rotation"], t)
+        scale = a["scale"].lerp(b["scale"], t)
+        result[bone_name] = {"location": loc, "rotation": rot, "scale": scale}
+    return result
+
+# =========================
+# BUILD TRANSITION
+# =========================
+
+a_start, a_end = action_a.frame_range
+b_start, b_end = action_b.frame_range
+a_start, a_end = int(a_start), int(a_end)
+b_start, b_end = int(b_start), int(b_end)
+a_frame_count = a_end - a_start + 1
+
+print(f"A: {a_start}-{a_end} ({a_frame_count} frames), B: {b_start}-{b_end}")
+
+# Capture end of A and start of B
+pose_a_end = evaluate_pose(action_a, a_end)
+pose_b_start = evaluate_pose(action_b, b_start)
+
+clear_pose()
+
+# Play Animation A once (no loop)
+current_frame = 1
+for src_frame in range(a_start, a_end + 1):
+    pose = evaluate_pose(action_a, src_frame)
+    insert_pose(current_frame, pose)
+    current_frame += 1
+
+# SLERP Transition
+for i in range(TRANSITION_FRAMES):
+    t = i / (TRANSITION_FRAMES - 1)
+    blended = blend_poses(pose_a_end, pose_b_start, t)
+    insert_pose(current_frame, blended)
+    current_frame += 1
+
+# Play Animation B (loop to end)
+while current_frame <= TARGET_FRAMES:
+    src_frame = b_start + ((current_frame - a_frame_count - TRANSITION_FRAMES - 1) % (b_end - b_start + 1))
+    pose = evaluate_pose(action_b, src_frame)
+    insert_pose(current_frame, pose)
+    current_frame += 1
+
+# =========================
+# RENDER
+# =========================
+
+scene = bpy.context.scene
+scene.frame_start = 1
+scene.frame_end = TARGET_FRAMES
+
+for o in scene.objects:
+    if o.type == 'MESH' and o.name not in ['Mannequin', 'Rig']:
+        o.hide_set(True)
+        o.hide_render = True
+
+bpy.ops.object.camera_add(location=(0, -6, 1.2))
+cam = bpy.context.active_object
+scene.camera = cam
+cam.rotation_euler = (1.54, 0, 0)
+
+bpy.ops.object.light_add(type='SUN')
+bpy.context.active_object.data.energy = 2.5
+
+scene.render.engine = 'BLENDER_EEVEE'
+scene.eevee.taa_render_samples = 4
+scene.render.resolution_x = 640
+scene.render.resolution_y = 360
+scene.render.image_settings.file_format = 'AVI_RAW'
+scene.render.filepath = "/root/nomark_project/exports/transition_output.avi"
+
+bpy.ops.render.render(animation=True)
+```
+
+### To use:
+1. Save as `/root/nomark_project/transition_script.py`
+2. Edit ANIM_A and ANIM_B at the top
+3. Run: `blender --background --python /root/nomark_project/transition_script.py`
+4. Convert: `ffmpeg -y -i transition_output.avi -c:v libx264 -preset fast -crf 23 transition_output.mp4`
+
+### Key fix that makes it work:
+- `evaluate_pose` saves/restores the original action
+- `insert_pose` explicitly sets `armature.animation_data.action = final_action` before each keyframe
+- Without both of these, Blender auto-switches actions and the source animation plays instead of the transition

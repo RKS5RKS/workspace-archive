@@ -55,10 +55,11 @@ The 2D assets CANNOT be rigged properly. You (Ryan) noted that assets weren't 3D
 ## Server Access Details
 
 ### Connection Info
-- **Hostname:** ubuntu-s-1vcpu-1gb-nyc1 (not resolving currently)
+- **IP:** 143.244.145.155
 - **User:** root
 - **SSH Key:** /home/openclaw/.openclaw/credentials/ssh/id_ed25519
-- **Backup IP:** 172.17.0.1 (Docker gateway)
+- **Blender:** /usr/bin/blender
+- **Project Dir:** /root/nomark_project/
 
 ### SSH Client
 - Successfully installed paramiko (Python SSH library)
